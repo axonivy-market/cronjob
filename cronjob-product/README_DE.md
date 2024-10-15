@@ -1,10 +1,8 @@
 # Cron Job
 
-Ein **Cron Job** ist ein Zeitplan zur Ausführung von Aufgaben, der sich basierend auf kalenderähnlichen Konzepten wiederholt.
+Ein Cron Job ist ein wiederkehrender Zeitplan zur Ausführung von Aufgaben. Mit einem Cron Job kannst Du Zeitpläne wie „jeden Freitag um 12 Uhr“, „jeden Wochentag um 9:30 Uhr“ oder sogar „alle 5 Minuten zwischen 9:00 und 10:00 Uhr an jedem Montag, Mittwoch und Freitag im Januar“ festlegen.
 
 Das [Quartz-Framework](http://www.quartz-scheduler.org/) wird als zugrunde liegendes Scheduler-Framework verwendet.
-
-Mit einem Cron Job kannst Du Zeitpläne wie „jeden Freitag um 12 Uhr“, „jeden Wochentag um 9:30 Uhr“ oder sogar „alle 5 Minuten zwischen 9:00 und 10:00 Uhr an jedem Montag, Mittwoch und Freitag im Januar“ festlegen.
 
 Mehr Details zu Cron-Expressions kannst Du z.B. hier finden: [Lesson 6: CronTrigger](http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/tutorial-lesson-06.html)
 
