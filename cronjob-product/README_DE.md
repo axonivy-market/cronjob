@@ -1,31 +1,49 @@
-# Cron Job
+# Cron Beruf
 
-Ein Cron Job ist ein wiederkehrender Zeitplan zur Ausführung von Aufgaben. Mit einem Cron Job kannst Du Zeitpläne wie „jeden Freitag um 12 Uhr“, „jeden Wochentag um 9:30 Uhr“ oder sogar „alle 5 Minuten zwischen 9:00 und 10:00 Uhr an jedem Montag, Mittwoch und Freitag im Januar“ festlegen.
+Ein Cron Beruf ist ein periodischer Anhang für exekutieren Tasks. Mit ein Cron
+Beruf, du kannst Anhänge gleichnamig jeden Freitag "setzen an 12:00
+Premierminister," "jeder Wochentag an 9:30 BIN," oder sogar "#jede 5 Minuten
+zwischen 9:00 BIN und 10:00 BIN auf jedem Montag, Mittwoch, und Freitag in
+Januar."
 
-Das [Quartz-Framework](http://www.quartz-scheduler.org/) wird als zugrunde liegendes Scheduler-Framework verwendet.
+Das [Quarz Fachwerk](http://www.quartz-scheduler.org/) ist benutzt da dem
+zugrundeliegenden #Terminplaner Fachwerk.
 
-Mehr Details zu Cron-Expressions kannst Du z.B. hier finden: [Lesson 6: CronTrigger](http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/tutorial-lesson-06.html)
+Du kannst #mehr Details finden etwa Cron Ausdrucke hier: [Unterrichtsstunde 6:
+CronTrigger](http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/tutorial-lesson-06.html)
 
 ## Demo
 
-In dieser Demo ist die `CronByGlobalVariableTriggerStartEventBean` als die Java-Klasse definiert, die im Ivy Program Start-Element ausgeführt wird.
+In dieser Demo, der CronByGlobalVariableTriggerStartEventBean ist definiert wie
+#eingruppieren #der #Java zu sein exekutiert in dem Efeu Programmiert Start
+Element.
 
-![Program Start Element Screenshot](ProgramStartElement.png "Program Start Element Screenshot")
+![Programmheft Start Element #Screenshot](ProgramStartElement.png "Programmheft
+Start Element #Screenshot")
 
-Diese Bean erhält eine Cron-Expression über die als Cron-Expression definierte Variable und plant die Ausführung basierend auf dieser Expression.
+Diese Bohne bekommt eine cron Ausdruck via die Variable definiert da Cron
+Ausdruck und es wollen einplanen mal den Ausdruck benutzen.
 
-![Benutzerdefiniertes Editor-UI Screenshot](customEditorUI.png "Benutzerdefiniertes Editor-UI Screenshot")
+![#Benutzerdefiniert Chefredakteur UI #Screenshot](customEditorUI.png
+"#Benutzerdefiniert Chefredakteur UI #Screenshot")
 
-In dieser Demo legt die Cron-Expression die Startzeit des Cron-Jobs fest, der einfach alle 5 Sekunden ausgeführt wird.
-
-```
-demoStartCronPattern: 0/5 * * * * ?
-```
-
-## Setup
-
-Für diese Demo ist keine besondere Einrichtung erforderlich. Starte einfach die Engine und beobachte das Logging, das alle 5 Sekunden mit folgendem Eintrag aktualisiert wird:
+Für diese Demo, die Cron Ausdruck ist definieren die Zeit zu starten die cron
+dass einfach feuert #jede 5 sekundiert.
 
 ```
-Cron Job ist gestartet am: 2023-01-27 10:43:20.
+
+  demoStartCronPattern: 0/5 * * * * ?
+
+```
+
+## Einrichtung
+
+Keine spezielle Einrichtung ist gebraucht für diese Demo. Einziger Start der
+Motor und beobachtet aus der #loggen welcher will sein verbessert #jede 5
+Sekunden mit der Gefolgschaft #loggen Eintrag:
+
+```
+
+Cron Job is started at: 2023-01-27 10:43:20.
+
 ```
