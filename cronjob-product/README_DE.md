@@ -35,7 +35,7 @@ der einfach alle 5 Sekunden ausgelöst wird.
 
 ```
 
-## Einrichtung
+## Setup
 
 Für diese Demo ist keine spezielle Einrichtung erforderlich. Starten Sie einfach
 die Engine und beobachten Sie die Protokollierung, die alle 5 Sekunden mit dem
