@@ -30,9 +30,7 @@ In dieser Demo definiert der Cron-Ausdruck die Zeit für den Start des Cron-Jobs
 der einfach alle 5 Sekunden ausgelöst wird.
 
 ```
-
-  demoStartCronPattern: 0/5 * * * * ?
-
+demoStartCronPattern: 0/5 * * * * ?
 ```
 
 ## Setup
@@ -42,7 +40,5 @@ die Engine und beobachten Sie die Protokollierung, die alle 5 Sekunden mit dem
 folgenden Protokolleintrag aktualisiert wird:
 
 ```
-
 Cron Job is started at: 2023-01-27 10:43:20.
-
 ```
