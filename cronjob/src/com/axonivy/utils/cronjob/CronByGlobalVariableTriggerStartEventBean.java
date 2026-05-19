@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.Job;
@@ -92,8 +91,8 @@ public class CronByGlobalVariableTriggerStartEventBean extends AbstractProcessSt
 	}
 
 	@Override
-	public void start(IProgressMonitor monitor) throws ServiceException {
-		super.start(monitor);
+	public void start() throws ServiceException {
+		super.start();
 		if (scheduler != null && trigger != null) {
 			try {
 				scheduler.start();
@@ -104,8 +103,8 @@ public class CronByGlobalVariableTriggerStartEventBean extends AbstractProcessSt
 	}
 
 	@Override
-	public void stop(IProgressMonitor monitor) throws ServiceException {
-		super.stop(monitor);
+	public void stop() throws ServiceException {
+		super.stop();
 		if (scheduler != null) {
 			try {
 				scheduler.shutdown();
