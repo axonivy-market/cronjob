@@ -22,9 +22,8 @@ import ch.ivyteam.ivy.persistence.PersistencyException;
 import ch.ivyteam.ivy.process.eventstart.AbstractProcessStartEventBean;
 import ch.ivyteam.ivy.process.eventstart.IProcessStartEventBeanRuntime;
 import ch.ivyteam.ivy.process.extension.ProgramConfig;
-import ch.ivyteam.ivy.process.extension.ui.ExtensionUiBuilder;
-import ch.ivyteam.ivy.process.extension.ui.IUiFieldEditor;
-import ch.ivyteam.ivy.process.extension.ui.UiEditorExtension;
+import ch.ivyteam.ivy.process.program.ui.ProgramEditorUi;
+import ch.ivyteam.ivy.process.program.ui.ProgramUiBuilder;
 import ch.ivyteam.ivy.service.ServiceException;
 import ch.ivyteam.ivy.vars.Variable;
 import ch.ivyteam.ivy.vars.Variables;
@@ -36,7 +35,8 @@ import ch.ivyteam.log.Logger;
  *
  * The Quartz framework is used as underlying scheduler framework.
  */
-public class CronByGlobalVariableTriggerStartEventBean extends AbstractProcessStartEventBean implements Job {
+public class CronByGlobalVariableTriggerStartEventBean extends AbstractProcessStartEventBean
+		implements Job, ProgramEditorUi {
 	private Scheduler scheduler = null;
 	private JobDetail job = null;
 	private CronTrigger trigger = null;
@@ -46,7 +46,6 @@ public class CronByGlobalVariableTriggerStartEventBean extends AbstractProcessSt
 	private static final Object SYN_OBJECT = new Object();
 	private static Map<String, Long> startedJobs = Collections.synchronizedMap(new HashMap<String, Long>());
 
-	
 	public CronByGlobalVariableTriggerStartEventBean() {
 		super("CronTrigger", "Description of CronTrigger");
 	}
@@ -58,27 +57,30 @@ public class CronByGlobalVariableTriggerStartEventBean extends AbstractProcessSt
 		eventRuntime.poll().disable();
 
 		try {
-			Variable var = Variables.of(eventRuntime.getProcessModelVersion().getApplication()).variable(programConfig.get(CONFIGURATION_PROPERTY));
+			Variable var = Variables.of(eventRuntime.getProcessModelVersion().app())
+					.variable(programConfig.get(CONFIGURATION_PROPERTY));
 			if (var != null) {
 				String pattern = var.value();
 				SchedulerFactory sf = new StdSchedulerFactory();
 				if (pattern != null && pattern.length() > 0) {
-					// sf.getScheduler() method has to be called inside synchronized block to prevent racing condition.
+					// sf.getScheduler() method has to be called inside synchronized block to
+					// prevent racing condition.
 					// E.g: two thread initialize Scheduler would cause
-					// SchedulerException: Scheduler with name 'DefaultQuartzScheduler' already exists.
+					// SchedulerException: Scheduler with name 'DefaultQuartzScheduler' already
+					// exists.
 					synchronized (SYN_OBJECT) {
 						scheduler = sf.getScheduler();
 					}
 					triggerIdentifier = String.format("cronjobIdentifier:%s", var.name());
-					
+
 					job = JobBuilder.newJob(CronByGlobalVariableTriggerStartEventBean.class)
 							.withIdentity(triggerIdentifier).build();
 					// Pass runtime instance to job, that the job thread has access to it
 					job.getJobDataMap().put(RUNTIME_KEY, eventRuntime);
-					
+
 					trigger = TriggerBuilder.newTrigger().withIdentity(triggerIdentifier, "Group")
 							.withSchedule(CronScheduleBuilder.cronSchedule(pattern)).build();
-					
+
 					scheduler.scheduleJob(job, trigger);
 					getEventBeanRuntime().getRuntimeLogLogger().info("Init trigger " + triggerIdentifier + " "
 							+ trigger.getCronExpression() + " First start: " + trigger.getNextFireTime());
@@ -119,7 +121,7 @@ public class CronByGlobalVariableTriggerStartEventBean extends AbstractProcessSt
 		if (context.getJobDetail().getJobDataMap().containsKey(RUNTIME_KEY)) {
 			final IProcessStartEventBeanRuntime eventRuntime = (IProcessStartEventBeanRuntime) context.getJobDetail()
 					.getJobDataMap().get(RUNTIME_KEY);
-			
+
 			if (eventRuntime != null) {
 				final Logger log = eventRuntime.getRuntimeLogLogger();
 				final String triggerIdentifier = context.getTrigger().getJobKey().getName();
@@ -153,7 +155,7 @@ public class CronByGlobalVariableTriggerStartEventBean extends AbstractProcessSt
 					} finally {
 						startedJobs.remove(triggerIdentifier);
 					}
-					
+
 					long endTs = System.currentTimeMillis();
 					String stats = String.format("execution time %.3f", (endTs - startTs) / 1000.0);
 					if (throwable != null) {
@@ -166,29 +168,9 @@ public class CronByGlobalVariableTriggerStartEventBean extends AbstractProcessSt
 		}
 	}
 
-	
-	/**
-	 * Editor class to work with the configuration.
-	 */
-	public static class Editor extends UiEditorExtension {
-
-		private IUiFieldEditor variable;
-
-		
-		@Override
-		public void initUiFields(ExtensionUiBuilder ui) {
-			ui.label("Cron expression defined by the Variable name located in <project>/config/variables.yaml file").create();
-			variable = ui.scriptField(CONFIGURATION_PROPERTY).create();
-		}
-
-		@Override
-		public String getConfiguration() {
-			return variable.getText();
-		}
-
-		@Override
-		public void setConfiguration(String configString) {
-			variable.setText(configString);
-		}
+	@Override
+	public void editor(ProgramUiBuilder ui) {
+		ui.label("Cron expression defined by the Variable name located in <project>/config/variables.yaml file").create();
+		ui.scriptField(CONFIGURATION_PROPERTY).create();
 	}
 }
